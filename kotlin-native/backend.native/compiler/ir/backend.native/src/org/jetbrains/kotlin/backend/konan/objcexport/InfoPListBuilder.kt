@@ -94,10 +94,12 @@ internal class InfoPListBuilder(
         // 2 - iPad
         // 3 - AppleTV
         // 4 - Apple Watch
+        // 7 - Apple Vision
         when (target.family) {
             Family.IOS -> addUiDeviceFamilies(1, 2)
             Family.TVOS -> addUiDeviceFamilies(3)
             Family.WATCHOS -> addUiDeviceFamilies(4)
+            Family.VISIONOS -> addUiDeviceFamilies(7)
             else -> {}
         }
 
@@ -133,6 +135,7 @@ internal class InfoPListBuilder(
                 Family.IOS -> "21A325"
                 Family.TVOS -> "21J351"
                 Family.WATCHOS -> "21R354"
+                Family.VISIONOS -> "21N301"
                 else -> error("Unknown Apple family: ${target.family}")
             }
             contents.append("""

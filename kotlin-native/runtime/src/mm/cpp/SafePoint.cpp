@@ -15,12 +15,11 @@
 
 // TODO: Remove after the bootstrap that brings changes in ClangArgs.kt
 #ifndef KONAN_SUPPORTS_SIGNPOSTS
-#define KONAN_SUPPORTS_SIGNPOSTS KONAN_MACOSX || KONAN_IOS || KONAN_WATCHOS || KONAN_TVOS
+#define KONAN_SUPPORTS_SIGNPOSTS KONAN_MACOSX || KONAN_IOS || KONAN_WATCHOS || KONAN_TVOS || KONAN_VISIONOS
 #endif
 
 #if KONAN_SUPPORTS_SIGNPOSTS
-#include <os/log.h>
-#include <os/signpost.h>
+#include "OSLog.hpp"
 #endif
 
 using namespace kotlin;

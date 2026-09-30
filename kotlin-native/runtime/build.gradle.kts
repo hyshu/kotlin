@@ -113,7 +113,19 @@ bitcode {
                 "TARGET_OS_IPHONE" to "1",
                 "TARGET_OS_WATCH" to "1",
             )
-            else -> emptyMap()
+            else -> when (target.name) {
+                "visionos_arm64" -> hashMapOf(
+                    "TARGET_OS_EMBEDDED" to "1",
+                    "TARGET_OS_IPHONE" to "1",
+                    "TARGET_OS_VISION" to "1",
+                )
+                "visionos_simulator_arm64" -> hashMapOf(
+                    "TARGET_OS_SIMULATOR" to "1",
+                    "TARGET_OS_IPHONE" to "1",
+                    "TARGET_OS_VISION" to "1",
+                )
+                else -> emptyMap()
+            }
             }.map { "-D${it.key}=${it.value}" }
 
         val clangArgsSpecificForKonanSources: List<String> = run {
@@ -741,7 +753,8 @@ val stdlibBuildTask by tasks.registering(KonanCompileTask::class) {
     group = BasePlugin.BUILD_GROUP
     description = "Build the Kotlin/Native standard library"
 
-    this.compilerDistributionRoot.set(nativeBootstrapDistribution.map { it.root })
+    this.compilerDistributionRoot.set(nativeDistribution.map { it.root })
+    dependsOn(":kotlin-native:distCompiler")
 
     this.outputDirectory.set(
             layout.buildDirectory.dir("stdlib/${HostManager.hostName}/stdlib")

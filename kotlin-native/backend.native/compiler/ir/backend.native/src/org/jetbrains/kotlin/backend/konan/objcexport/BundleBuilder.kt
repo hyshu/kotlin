@@ -27,7 +27,8 @@ internal class BundleBuilder(
         val bundleContents = when (target.family) {
             Family.IOS,
             Family.WATCHOS,
-            Family.TVOS -> bundleDirectory
+            Family.TVOS,
+            Family.VISIONOS -> bundleDirectory
             Family.OSX -> bundleDirectory.child("Contents")
             else -> error(target)
         }.apply { mkdirs() }

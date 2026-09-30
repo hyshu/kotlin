@@ -34,14 +34,24 @@ dependencies {
     api("org.jetbrains.kotlin:kotlin-stdlib:${coreDepsVersion}")
     implementation("org.jetbrains.kotlin:kotlin-reflect:${coreDepsVersion}") { isTransitive = false }
     implementation("org.jetbrains.kotlin:kotlin-build-gradle-plugin:${kotlinBuildProperties.buildGradlePluginVersion.get()}")
-    implementation("org.jetbrains.kotlin:kotlin-native-utils:${project.bootstrapKotlinVersion}")
+    val visionosNativeUtilsJar = providers.gradleProperty("visionos.native.utils.jar")
+    if (visionosNativeUtilsJar.isPresent) {
+        val visionosVersion = providers.gradleProperty("build.number").get()
+        implementation(files(
+            visionosNativeUtilsJar.get(),
+            "../../compiler/util-io/build/libs/kotlin-util-io-$visionosVersion.jar",
+            "../../compiler/util-klib/build/libs/kotlin-util-klib-$visionosVersion.jar",
+            "../../core/metadata/build/libs/metadata-$visionosVersion.jar",
+        ))
+    } else {
+        implementation("org.jetbrains.kotlin:kotlin-native-utils:${project.bootstrapKotlinVersion}")
+    }
 
     // To build Konan Gradle plugin
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${project.bootstrapKotlinVersion}")
 
     implementation(libs.gson)
 
-    implementation("org.jetbrains.kotlin:kotlin-util-klib:${project.bootstrapKotlinVersion}")
 }
 
 val compileKotlin: KotlinCompile by tasks

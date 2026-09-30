@@ -17,6 +17,7 @@ private fun defaultDeviceId(target: KonanTarget) = when (target.family) {
     Family.TVOS -> "com.apple.CoreSimulator.SimDeviceType.Apple-TV-4K-4K"
     Family.IOS -> "com.apple.CoreSimulator.SimDeviceType.iPhone-14"
     Family.WATCHOS -> "com.apple.CoreSimulator.SimDeviceType.Apple-Watch-Series-6-40mm"
+    Family.VISIONOS -> "com.apple.CoreSimulator.SimDeviceType.Apple-Vision-Pro-4K"
     else -> error("Unexpected simulation target: $target")
 }
 

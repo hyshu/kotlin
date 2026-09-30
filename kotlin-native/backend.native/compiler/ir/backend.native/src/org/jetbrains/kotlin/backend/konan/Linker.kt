@@ -113,7 +113,8 @@ internal class Linker(
                 val dylibRelativePath = when (target.family) {
                     Family.IOS,
                     Family.TVOS,
-                    Family.WATCHOS -> dylibName
+                    Family.WATCHOS,
+                    Family.VISIONOS -> dylibName
                     Family.OSX -> "Versions/A/$dylibName"
                     else -> error(target)
                 }

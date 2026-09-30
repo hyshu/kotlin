@@ -28,9 +28,10 @@ class AppleConfigurablesImpl(
     progressCallback: ProgressCallback,
 ) : AppleConfigurables, KonanPropertiesLoader(target, properties, dependenciesDir, progressCallback = progressCallback) {
 
-    private val sdkDependency = this.targetSysRoot!!
-    private val toolchainDependency = this.targetToolchain!!
-    private val xcodeAddonDependency = this.additionalToolsDir!!
+    // Bootstrap distributions may not describe newly added targets.
+    private val sdkDependency = this.targetSysRoot
+    private val toolchainDependency = this.targetToolchain
+    private val xcodeAddonDependency = this.additionalToolsDir
 
     override val absoluteTargetSysRoot: String get() = when (val provider = xcodePartsProvider) {
         is XcodePartsProvider.Local -> {
@@ -38,22 +39,22 @@ class AppleConfigurablesImpl(
             val platformName = if (targetTriple.isMacabi) "MacOSX" else platformName()
             provider.xcode.pathToPlatformSdk(platformName)
         }
-        XcodePartsProvider.InternalServer -> absolute(sdkDependency)
+        XcodePartsProvider.InternalServer -> absolute(requireNotNull(sdkDependency) { "Missing SDK dependency for $target" })
     }
 
     override val absoluteTargetToolchain: String get() = when (val provider = xcodePartsProvider) {
         is XcodePartsProvider.Local -> provider.xcode.toolchain
-        XcodePartsProvider.InternalServer -> "${absolute(toolchainDependency)}/usr"
+        XcodePartsProvider.InternalServer -> "${absolute(requireNotNull(toolchainDependency) { "Missing toolchain dependency for $target" })}/usr"
     }
 
     override val absoluteAdditionalToolsDir: String get() = when (val provider = xcodePartsProvider) {
         is XcodePartsProvider.Local -> provider.xcode.additionalTools
-        XcodePartsProvider.InternalServer -> absolute(additionalToolsDir)
+        XcodePartsProvider.InternalServer -> absolute(requireNotNull(xcodeAddonDependency) { "Missing additional tools for $target" })
     }
 
     override val dependencies
         get() = super.dependencies +
-                if (InternalServer.isAvailable) listOf(
+                if (InternalServer.isAvailable) listOfNotNull(
                     sdkDependency,
                     toolchainDependency,
                     xcodeAddonDependency
@@ -107,6 +108,11 @@ fun AppleConfigurables.platformName(): String = when (target.family) {
         "WatchSimulator"
     } else {
         "WatchOS"
+    }
+    Family.VISIONOS -> if (targetTriple.isSimulator) {
+        "XRSimulator"
+    } else {
+        "XROS"
     }
     else -> error("Not an Apple target: $target")
 }
