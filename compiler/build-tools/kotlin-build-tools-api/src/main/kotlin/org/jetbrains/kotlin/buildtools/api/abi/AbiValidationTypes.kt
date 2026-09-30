@@ -236,7 +236,19 @@ public enum class KlibTargetType(public val canonicalName: String) {
     IOS_ARM32("iosArm32"),
     WATCHOS_X86("watchosX86"),
     LINUX_ARM32_HFP("linuxArm32Hfp"),
-    MINGW_X86("mingwX86");
+    MINGW_X86("mingwX86"),
+    /**
+     * visionOS device ARM64 target.
+     *
+     * @since 2.4.10
+     */
+    VISIONOS_ARM64("visionosArm64"),
+    /**
+     * visionOS simulator ARM64 target.
+     *
+     * @since 2.4.10
+     */
+    VISIONOS_SIMULATOR_ARM64("visionosSimulatorArm64");
 
     public companion object {
         /**
@@ -287,6 +299,8 @@ private val konanTargetMapping = mapOf(
     "watchos_x86" to KlibTargetType.WATCHOS_X86,
     "linux_arm32_hfp" to KlibTargetType.LINUX_ARM32_HFP,
     "mingw_x86" to KlibTargetType.MINGW_X86,
+    "visionos_arm64" to KlibTargetType.VISIONOS_ARM64,
+    "visionos_simulator_arm64" to KlibTargetType.VISIONOS_SIMULATOR_ARM64,
     "wasm-wasi" to KlibTargetType.WASM_WASI,
     "wasm-js" to KlibTargetType.WASM_JS
 )

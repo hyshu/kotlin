@@ -25,6 +25,12 @@ class KlibTargetHierarchyTest {
         assertContentEquals(listOf("iosArm64", "ios", "apple", "native", "all"),
             hierarchyFrom("iosArm64"))
 
+        assertContentEquals(listOf("visionosArm64", "visionos", "apple", "native", "all"),
+            hierarchyFrom("visionosArm64"))
+
+        assertContentEquals(listOf("visionosSimulatorArm64", "visionos", "apple", "native", "all"),
+            hierarchyFrom("visionosSimulatorArm64"))
+
         assertContentEquals(listOf("androidNative", "native", "all"),
             hierarchyFrom("androidNative"))
 
@@ -35,6 +41,7 @@ class KlibTargetHierarchyTest {
     fun testTargetsList() {
         assertEquals(setOf("linuxX64"), TargetHierarchy.targets("linuxX64"))
         assertEquals(setOf("macosX64", "macosArm64"), TargetHierarchy.targets("macos"))
+        assertEquals(setOf("visionosArm64", "visionosSimulatorArm64"), TargetHierarchy.targets("visionos"))
         assertEquals(emptySet(), TargetHierarchy.targets("unknown"))
     }
 

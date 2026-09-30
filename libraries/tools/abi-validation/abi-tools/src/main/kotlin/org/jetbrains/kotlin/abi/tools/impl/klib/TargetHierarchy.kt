@@ -77,6 +77,11 @@ internal object TargetHierarchy {
                     Node("watchosSimulatorArm64"),
                     Node("watchosDeviceArm64"),
                     Node("watchosX86")
+                ),
+                Node(
+                    "visionos",
+                    Node("visionosArm64"),
+                    Node("visionosSimulatorArm64")
                 )
             )
         )
