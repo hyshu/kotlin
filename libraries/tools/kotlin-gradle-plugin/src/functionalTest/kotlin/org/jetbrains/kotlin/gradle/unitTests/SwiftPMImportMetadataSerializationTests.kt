@@ -18,8 +18,62 @@ import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class SwiftPMImportMetadataSerializationTests {
+
+    @Test
+    fun `visionOS deployment target and product constraints survive metadata serialization`() {
+        buildProjectWithMPP {
+            kotlin {
+                visionosArm64()
+                visionosSimulatorArm64()
+            }
+
+            val extension = locateOrRegisterSwiftPMDependenciesExtension().apply {
+                visionosMinimumDeploymentTarget.set("2.0")
+                swiftPackage(
+                    repository = SwiftPMDependency.Remote.Repository.Id("example/spatial"),
+                    version = exact("1.0.0"),
+                    products = listOf(product("Spatial", platforms = setOf(visionOS()), importedClangModules = emptySet())),
+                    packageName = "spatial",
+                )
+            }
+            val metadata = locateOrRegisterSwiftPMDependenciesMetadataTaskAndConsumableConfiguration(extension)
+                .get().swiftPMImportMetadata()
+            val serialized = ByteArrayOutputStream()
+            metadata.serializeSwiftPMImportMetadata(serialized)
+            val restored = deserializeSwiftPMImportMetadata(ByteArrayInputStream(serialized.toByteArray()))
+
+            assertEquals(metadata, restored)
+            assertEquals(setOf("visionos_arm64", "visionos_simulator_arm64"), restored.konanTargets)
+            assertEquals("2.0", restored.visionosDeploymentVersion)
+            assertEquals(setOf(SwiftPMDependency.Platform.visionOS), restored.dependencies.single().products.single().platformConstraints)
+        }
+    }
+
+    @Test
+    fun `metadata from earlier toolchains can omit the visionOS deployment target`() {
+        val metadata = deserializeSwiftPMImportMetadata(
+            ByteArrayInputStream(
+                """
+                    {
+                        "konanTargets": ["ios_arm64"],
+                        "iosDeploymentVersion": "12.0",
+                        "macosDeploymentVersion": null,
+                        "watchosDeploymentVersion": null,
+                        "tvosDeploymentVersion": null,
+                        "isModulesDiscoveryEnabled": true,
+                        "dependencies": []
+                    }
+                """.trimIndent().toByteArray()
+            )
+        )
+
+        assertEquals(setOf("ios_arm64"), metadata.konanTargets)
+        assertEquals("12.0", metadata.iosDeploymentVersion)
+        assertNull(metadata.visionosDeploymentVersion)
+    }
 
     @Test
     fun `smoke test swiftPM metadata serialization`() {

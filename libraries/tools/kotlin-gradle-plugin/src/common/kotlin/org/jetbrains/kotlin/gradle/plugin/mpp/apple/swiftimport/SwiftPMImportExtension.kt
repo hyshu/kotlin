@@ -90,6 +90,9 @@ abstract class SwiftPMImportExtension @Inject constructor(
     /** Minimum tvOS deployment target written to generated SwiftPM manifests. */
     val tvosMinimumDeploymentTarget: Property<String> = objects.property(String::class.java)
 
+    /** Minimum visionOS deployment target written to generated SwiftPM manifests. */
+    val visionosMinimumDeploymentTarget: Property<String> = objects.property(String::class.java)
+
     /**
      * Enables implicit discovery of Clang modules from imported SwiftPM packages.
      *
@@ -198,6 +201,9 @@ abstract class SwiftPMImportExtension @Inject constructor(
 
     /** Returns the tvOS platform constraint for [product]. */
     fun tvOS(): SwiftPMDependency.Platform = SwiftPMDependency.Platform.tvOS
+
+    /** Returns the visionOS platform constraint for [product]. */
+    fun visionOS(): SwiftPMDependency.Platform = SwiftPMDependency.Platform.visionOS
 
     /**
      * Adds a remote SwiftPM package dependency using URL and version shorthand.
@@ -427,13 +433,15 @@ sealed class SwiftPMDependency : Serializable {
         iOS,
         macOS,
         tvOS,
-        watchOS;
+        watchOS,
+        visionOS;
 
         val swiftEnumName: String get() = when (this) {
                 iOS -> "iOS"
                 macOS -> "macOS"
                 tvOS -> "tvOS"
                 watchOS -> "watchOS"
+                visionOS -> "visionOS"
             }
     }
 
@@ -533,7 +541,8 @@ internal data class SwiftPMImportMetadata(
     val tvosDeploymentVersion: String?,
     @Suppress("unused")
     val isModulesDiscoveryEnabled: Boolean,
-    val dependencies: Set<SwiftPMDependency>
+    val dependencies: Set<SwiftPMDependency>,
+    val visionosDeploymentVersion: String? = null,
 ) : Serializable
 
 private val swiftPMMetadataJson = Json {

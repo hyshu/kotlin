@@ -71,6 +71,22 @@ internal object AppleSdk {
                     }
                 })
             }
+            platform.startsWith("xros") -> {
+                targets.addAll(archs.map { arch ->
+                    when (arch) {
+                        "arm64", "arm64e" -> KonanTarget.VISIONOS_ARM64
+                        else -> throw UnknownArchitectureException(platform, arch)
+                    }
+                })
+            }
+            platform.startsWith("xrsimulator") -> {
+                targets.addAll(archs.map { arch ->
+                    when (arch) {
+                        "arm64", "arm64e" -> KonanTarget.VISIONOS_SIMULATOR_ARM64
+                        else -> throw UnknownArchitectureException(platform, arch)
+                    }
+                })
+            }
             platform.startsWith("macosx") -> {
                 targets.addAll(archs.map { arch ->
                     when (arch) {
@@ -118,6 +134,8 @@ internal val KonanTarget.appleArchitecture: AppleArchitecture
         KonanTarget.MACOS_ARM64,
         KonanTarget.TVOS_ARM64,
         KonanTarget.TVOS_SIMULATOR_ARM64,
+        KonanTarget.VISIONOS_ARM64,
+        KonanTarget.VISIONOS_SIMULATOR_ARM64,
         KonanTarget.WATCHOS_DEVICE_ARM64,
         KonanTarget.WATCHOS_SIMULATOR_ARM64,
             -> AppleArchitecture.ARM64
@@ -150,6 +168,8 @@ internal val AppleTarget.applePlatform: String
         AppleTarget.WATCHOS_SIMULATOR -> "watchOS Simulator"
         AppleTarget.TVOS_DEVICE -> "tvOS"
         AppleTarget.TVOS_SIMULATOR -> "tvOS Simulator"
+        AppleTarget.VISIONOS_DEVICE -> "visionOS"
+        AppleTarget.VISIONOS_SIMULATOR -> "visionOS Simulator"
     }
 
 internal val AppleTarget.sdk: String
@@ -161,6 +181,8 @@ internal val AppleTarget.sdk: String
         AppleTarget.WATCHOS_SIMULATOR -> "watchsimulator"
         AppleTarget.TVOS_DEVICE -> "appletvos"
         AppleTarget.TVOS_SIMULATOR -> "appletvsimulator"
+        AppleTarget.VISIONOS_DEVICE -> "xros"
+        AppleTarget.VISIONOS_SIMULATOR -> "xrsimulator"
     }
 
 internal val KonanTarget.applePlatform: String

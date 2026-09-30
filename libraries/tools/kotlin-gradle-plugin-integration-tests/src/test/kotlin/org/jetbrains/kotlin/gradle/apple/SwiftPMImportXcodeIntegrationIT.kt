@@ -150,7 +150,7 @@ class SwiftPMImportXcodeIntegrationIT : KGPBaseTest() {
     }
 
     @GradleTest
-    fun `integrateLinkagePackage passes non-default iosDeploymentVersion into synthetic manifest`(version: GradleVersion) {
+    fun `integrateLinkagePackage passes non-default deployment versions into synthetic manifest`(version: GradleVersion) {
         project("emptyxcode", version) {
             val localSwiftPackageRelativePath = "../localSwiftPackage"
             createLocalSwiftPackage(projectPath.resolve(localSwiftPackageRelativePath))
@@ -165,7 +165,9 @@ class SwiftPMImportXcodeIntegrationIT : KGPBaseTest() {
                         iosSimulatorArm64(),
                         macosArm64(),
                         tvosArm64(),
-                        watchosArm64()
+                        visionosArm64(),
+                        visionosSimulatorArm64(),
+                        watchosArm64(),
                     ).forEach {
                         it.binaries.framework {
                             baseName = "Shared"
@@ -178,6 +180,7 @@ class SwiftPMImportXcodeIntegrationIT : KGPBaseTest() {
                         macosMinimumDeploymentTarget.set("14.6")
                         watchosMinimumDeploymentTarget.set("11.6")
                         tvosMinimumDeploymentTarget.set("18.6")
+                        visionosMinimumDeploymentTarget.set("2.6")
                         localSwiftPackage(
                             directory = project.layout.projectDirectory.dir(localSwiftPackageRelativePath),
                             products = listOf("LocalSwiftPackage"),
@@ -222,6 +225,11 @@ class SwiftPMImportXcodeIntegrationIT : KGPBaseTest() {
                     "11.6",
                     platforms["watchos"]?.version,
                     message = "Synthetic Package.swift should contain explicitly configured watchOS deployment version"
+                )
+                assertEquals(
+                    "2.6",
+                    platforms["visionos"]?.version,
+                    message = "Synthetic Package.swift should contain explicitly configured visionOS deployment version"
                 )
             }
         }

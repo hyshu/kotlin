@@ -51,12 +51,12 @@ class KotlinHierarchyDslTest {
         )
 
         assertEquals(
-            stringSetOf("iosMain", "macosMain", "tvosMain", "watchosMain"),
+            stringSetOf("iosMain", "macosMain", "tvosMain", "visionosMain", "watchosMain"),
             kotlin.dependingSourceSetNames("appleMain")
         )
 
         assertEquals(
-            stringSetOf("iosTest", "macosTest", "tvosTest", "watchosTest"),
+            stringSetOf("iosTest", "macosTest", "tvosTest", "visionosTest", "watchosTest"),
             kotlin.dependingSourceSetNames("appleTest")
         )
 
@@ -78,6 +78,16 @@ class KotlinHierarchyDslTest {
         assertEquals(
             stringSetOf("tvosArm64Test", "tvosSimulatorArm64Test"),
             kotlin.dependingSourceSetNames("tvosTest")
+        )
+
+        assertEquals(
+            stringSetOf("visionosArm64Main", "visionosSimulatorArm64Main"),
+            kotlin.dependingSourceSetNames("visionosMain")
+        )
+
+        assertEquals(
+            stringSetOf("visionosArm64Test", "visionosSimulatorArm64Test"),
+            kotlin.dependingSourceSetNames("visionosTest")
         )
 
         assertEquals(
@@ -169,6 +179,9 @@ class KotlinHierarchyDslTest {
                 │   │   ├── tvosMain
                 │   │   │   ├── tvosArm64Main
                 │   │   │   └── tvosSimulatorArm64Main
+                │   │   ├── visionosMain
+                │   │   │   ├── visionosArm64Main
+                │   │   │   └── visionosSimulatorArm64Main
                 │   │   └── watchosMain
                 │   │       ├── watchosArm32Main
                 │   │       ├── watchosArm64Main
@@ -207,6 +220,9 @@ class KotlinHierarchyDslTest {
                 │   │   ├── tvosTest
                 │   │   │   ├── tvosArm64Test
                 │   │   │   └── tvosSimulatorArm64Test
+                │   │   ├── visionosTest
+                │   │   │   ├── visionosArm64Test
+                │   │   │   └── visionosSimulatorArm64Test
                 │   │   └── watchosTest
                 │   │       ├── watchosArm32Test
                 │   │       ├── watchosArm64Test
@@ -587,6 +603,9 @@ class KotlinHierarchyDslTest {
                         tvosMain,
                         tvosArm64Main,
                         tvosSimulatorArm64Main,
+                        visionosMain,
+                        visionosArm64Main,
+                        visionosSimulatorArm64Main,
                         watchosMain,
                         watchosArm32Main,
                         watchosArm64Main,
@@ -620,6 +639,9 @@ class KotlinHierarchyDslTest {
                         tvosTest,
                         tvosArm64Test,
                         tvosSimulatorArm64Test,
+                        visionosTest,
+                        visionosArm64Test,
+                        visionosSimulatorArm64Test,
                         watchosTest,
                         watchosArm32Test,
                         watchosArm64Test,

@@ -31,7 +31,7 @@ import kotlin.test.assertFalse
 class SwiftPMImportPublicationIT : KGPBaseTest() {
 
     @GradleTest
-    fun `check published library with remote spm dependency`(version: GradleVersion) {
+    fun `check published library with remote spm dependency and visionOS metadata`(version: GradleVersion) {
         val producer = project("empty", version) {
             plugins {
                 kotlin("multiplatform")
@@ -41,15 +41,18 @@ class SwiftPMImportPublicationIT : KGPBaseTest() {
                 project.applyMultiplatform {
                     iosArm64()
                     iosSimulatorArm64()
+                    visionosArm64()
+                    visionosSimulatorArm64()
 
                     sourceSets.commonMain.get().compileStubSourceWithSourceSetName()
 
                     swiftPMDependencies {
                         iosMinimumDeploymentTarget.set("18.0")
+                        visionosMinimumDeploymentTarget.set("2.0")
                         swiftPackage(
                             url = url("https://github.com/apple/swift-protobuf.git"),
                             version = exact("1.32.0"),
-                            products = listOf(),
+                        products = listOf(product("SwiftProtobuf", platforms = setOf(visionOS()), importedClangModules = emptySet())),
                         )
                     }
                 }
@@ -63,7 +66,12 @@ class SwiftPMImportPublicationIT : KGPBaseTest() {
 
         assertEquals(
             SwiftPMImportMetadata(
-                konanTargets = setOf("ios_arm64", "ios_simulator_arm64"),
+                konanTargets = setOf(
+                    "ios_arm64",
+                    "ios_simulator_arm64",
+                    "visionos_arm64",
+                    "visionos_simulator_arm64",
+                ),
                 iosDeploymentVersion = "18.0",
                 macosDeploymentVersion = null,
                 watchosDeploymentVersion = null,
@@ -73,12 +81,18 @@ class SwiftPMImportPublicationIT : KGPBaseTest() {
                     SwiftPMDependency.Remote(
                         repository = SwiftPMDependency.Remote.Repository.Url("https://github.com/apple/swift-protobuf.git"),
                         version = SwiftPMDependency.Remote.Version.Exact("1.32.0"),
-                        products = listOf(),
+                        products = listOf(
+                            SwiftPMDependency.Product(
+                                name = "SwiftProtobuf",
+                                platformConstraints = setOf(SwiftPMDependency.Platform.visionOS),
+                            ),
+                        ),
                         cinteropClangModules = emptyList(),
                         packageName = "swift-protobuf",
                         traits = setOf()
                     )
                 ),
+                visionosDeploymentVersion = "2.0",
             ),
             deserializeSwiftPMImportMetadata(spmMetadata.inputStream())
         )

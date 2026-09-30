@@ -115,7 +115,7 @@ abstract class PodBuildTask @Inject constructor(
         runCommand(podXcodeBuildCommand, logger, errorHandler = { result ->
             val output = result.stdErr.ifBlank { result.stdOut }
 
-            // Detect missing iOS/watchOS/tvOS platform
+            // Detect missing iOS/watchOS/tvOS/visionOS platform
             if (output.contains("is not installed") && output.contains("platform")) {
                 val platform = appleTarget.get().applePlatform
                 """
@@ -125,6 +125,7 @@ abstract class PodBuildTask @Inject constructor(
                     |    $ xcodebuild -downloadPlatform iOS
                     |    $ xcodebuild -downloadPlatform watchOS
                     |    $ xcodebuild -downloadPlatform tvOS
+                    |    $ xcodebuild -downloadPlatform visionOS
                     |
                     |Or open Xcode > Settings > Platforms and install the required platform.
                     |

@@ -73,6 +73,10 @@ internal abstract class GenerateSyntheticLinkageImportProject : DefaultTask(), U
     @get:Input
     abstract val tvosDeploymentVersion: Property<String>
 
+    @get:Optional
+    @get:Input
+    abstract val visionosDeploymentVersion: Property<String>
+
     @get:Input
     abstract val syntheticProductType: Property<SyntheticProductType>
 
@@ -96,6 +100,7 @@ internal abstract class GenerateSyntheticLinkageImportProject : DefaultTask(), U
         macosDeploymentVersion.set(swiftPMImportExtension.macosMinimumDeploymentTarget)
         watchosDeploymentVersion.set(swiftPMImportExtension.watchosMinimumDeploymentTarget)
         tvosDeploymentVersion.set(swiftPMImportExtension.tvosMinimumDeploymentTarget)
+        visionosDeploymentVersion.set(swiftPMImportExtension.visionosMinimumDeploymentTarget)
         directlyImportedDependencies.set(swiftPMImportExtension.swiftPMDependencies)
     }
 
@@ -298,6 +303,16 @@ internal abstract class GenerateSyntheticLinkageImportProject : DefaultTask(), U
                     )
                     ".watchOS(\"${deploymentTarget}\")"
                 }
+                Family.VISIONOS -> {
+                    val deploymentTarget = explicitOrMaximumDeploymentTarget(
+                        visionosDeploymentVersion,
+                        VISIONOS_DEPLOYMENT_TARGET_DEFAULT,
+                        dependencyIdentifierToImportedSwiftPMDependencies.get().metadataByDependencyIdentifier.values.mapNotNull {
+                            it.visionosDeploymentVersion
+                        },
+                    )
+                    ".visionOS(\"${deploymentTarget}\")"
+                }
                 Family.LINUX,
                 Family.MINGW,
                 Family.ANDROID,
@@ -385,5 +400,6 @@ internal abstract class GenerateSyntheticLinkageImportProject : DefaultTask(), U
         const val MACOS_DEPLOYMENT_TARGET_DEFAULT = "10.15"
         const val WATCHOS_DEPLOYMENT_TARGET_DEFAULT = "15.0"
         const val TVOS_DEPLOYMENT_TARGET_DEFAULT = "9.0"
+        const val VISIONOS_DEPLOYMENT_TARGET_DEFAULT = "1.0"
     }
 }

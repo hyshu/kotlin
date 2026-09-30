@@ -239,7 +239,7 @@ internal constructor(
 }
 
 /**
- * A task running Kotlin/Native tests on a simulator (iOS/watchOS/tvOS).
+ * A task running Kotlin/Native tests on a simulator (iOS/watchOS/tvOS/visionOS).
  */
 @DisableCachingByDefault
 abstract class KotlinNativeSimulatorTest

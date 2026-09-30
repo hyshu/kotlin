@@ -486,6 +486,12 @@ public abstract interface class org/jetbrains/kotlin/gradle/dsl/KotlinMultiplatf
 	public abstract fun getTvosTest (Lorg/gradle/api/NamedDomainObjectContainer;)Lorg/gradle/api/NamedDomainObjectProvider;
 	public abstract fun getTvosX64Main (Lorg/gradle/api/NamedDomainObjectContainer;)Lorg/gradle/api/NamedDomainObjectProvider;
 	public abstract fun getTvosX64Test (Lorg/gradle/api/NamedDomainObjectContainer;)Lorg/gradle/api/NamedDomainObjectProvider;
+	public abstract fun getVisionosArm64Main (Lorg/gradle/api/NamedDomainObjectContainer;)Lorg/gradle/api/NamedDomainObjectProvider;
+	public abstract fun getVisionosArm64Test (Lorg/gradle/api/NamedDomainObjectContainer;)Lorg/gradle/api/NamedDomainObjectProvider;
+	public abstract fun getVisionosMain (Lorg/gradle/api/NamedDomainObjectContainer;)Lorg/gradle/api/NamedDomainObjectProvider;
+	public abstract fun getVisionosSimulatorArm64Main (Lorg/gradle/api/NamedDomainObjectContainer;)Lorg/gradle/api/NamedDomainObjectProvider;
+	public abstract fun getVisionosSimulatorArm64Test (Lorg/gradle/api/NamedDomainObjectContainer;)Lorg/gradle/api/NamedDomainObjectProvider;
+	public abstract fun getVisionosTest (Lorg/gradle/api/NamedDomainObjectContainer;)Lorg/gradle/api/NamedDomainObjectProvider;
 	public abstract fun getWasmJsMain (Lorg/gradle/api/NamedDomainObjectContainer;)Lorg/gradle/api/NamedDomainObjectProvider;
 	public abstract fun getWasmJsTest (Lorg/gradle/api/NamedDomainObjectContainer;)Lorg/gradle/api/NamedDomainObjectProvider;
 	public abstract fun getWasmWasiMain (Lorg/gradle/api/NamedDomainObjectContainer;)Lorg/gradle/api/NamedDomainObjectProvider;
@@ -1047,6 +1053,9 @@ public abstract interface class org/jetbrains/kotlin/gradle/plugin/KotlinHierarc
 	public abstract fun withTvosArm64 ()V
 	public abstract fun withTvosSimulatorArm64 ()V
 	public abstract fun withTvosX64 ()V
+	public abstract fun withVisionos ()V
+	public abstract fun withVisionosArm64 ()V
+	public abstract fun withVisionosSimulatorArm64 ()V
 	public abstract fun withWasmJs ()V
 	public abstract fun withWasmWasi ()V
 	public abstract fun withWatchos ()V
@@ -1374,6 +1383,10 @@ public final class org/jetbrains/kotlin/gradle/plugin/mpp/DisableCacheInKotlinVe
 
 public final class org/jetbrains/kotlin/gradle/plugin/mpp/DisableCacheInKotlinVersion$2_4_0 : org/jetbrains/kotlin/gradle/plugin/mpp/DisableCacheInKotlinVersion {
 	public static final field INSTANCE Lorg/jetbrains/kotlin/gradle/plugin/mpp/DisableCacheInKotlinVersion$2_4_0;
+}
+
+public final class org/jetbrains/kotlin/gradle/plugin/mpp/DisableCacheInKotlinVersion$2_4_10 : org/jetbrains/kotlin/gradle/plugin/mpp/DisableCacheInKotlinVersion {
+	public static final field INSTANCE Lorg/jetbrains/kotlin/gradle/plugin/mpp/DisableCacheInKotlinVersion$2_4_10;
 }
 
 public abstract interface annotation class org/jetbrains/kotlin/gradle/plugin/mpp/KotlinNativeCacheApi : java/lang/annotation/Annotation {

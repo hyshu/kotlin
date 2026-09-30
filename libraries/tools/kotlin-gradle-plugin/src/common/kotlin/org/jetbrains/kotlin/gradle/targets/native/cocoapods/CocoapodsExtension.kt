@@ -105,6 +105,8 @@ abstract class CocoapodsExtension @Inject constructor(private val project: Proje
 
     val watchos: PodspecPlatformSettings = PodspecPlatformSettings("watchos")
 
+    val visionos: PodspecPlatformSettings = PodspecPlatformSettings("visionos")
+
     private val anyPodFramework = project.provider {
         val anyTarget = project.multiplatformExtension.supportedAppleTargets().first()
         val anyFramework = anyTarget.binaries

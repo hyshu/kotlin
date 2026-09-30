@@ -20,7 +20,7 @@ internal fun generateKotlinMultiplatformSourceSetConventionsKt(withPrinterToFile
 
     val oldSource = sourceFile.readText()
     val nativeDeclarations = nativePresetEntries
-        .map { PlatformSourceSetConvention(targetName = it.entityName, deprecation = it.deprecation) }
+        .map { it.toPlatformSourceSetConvention() }
         .generatePlatformInterfaceDeclarations()
         .indented(4)
 
@@ -38,7 +38,7 @@ internal fun generateKotlinMultiplatformSourceSetConventionsKt(withPrinterToFile
         .replaceRegion("Common Source Set Accessors", commonDeclarations)
 
     withPrinterToFile(sourceFile) {
-        println(newSource)
+        print(newSource)
     }
 }
 
@@ -48,7 +48,7 @@ internal fun generateKotlinMultiplatformSourceSetConventionsImplKt(withPrinterTo
 
     val oldSource = sourceFile.readText()
     val nativeDeclarations = nativePresetEntries
-        .map { PlatformSourceSetConvention(targetName = it.entityName, deprecation = it.deprecation) }
+        .map { it.toPlatformSourceSetConvention() }
         .generatePlatformImplDeclarations()
         .indented(4)
 
@@ -66,7 +66,7 @@ internal fun generateKotlinMultiplatformSourceSetConventionsImplKt(withPrinterTo
         .replaceRegion("Common Source Set Accessors", commonDeclarations)
 
     withPrinterToFile(sourceFile) {
-        println(newSource)
+        print(newSource)
     }
 }
 
@@ -74,6 +74,7 @@ internal data class PlatformSourceSetConvention(
     val targetName: String,
     val deprecation: KotlinPresetEntry.Deprecation? = null,
     val experimentalAnnotation: String? = null,
+    val sinceVersion: String = "2.0.20",
 )
 
 internal data class CommonSourceSetConvention(
@@ -81,15 +82,32 @@ internal data class CommonSourceSetConvention(
     val allTargetsDescription: String,
     val sampleTarget1: String,
     val sampleTarget2: String,
+    val sinceVersion: String = "1.9.20",
+)
+
+private fun KotlinPresetEntry.toPlatformSourceSetConvention() = PlatformSourceSetConvention(
+    targetName = entityName,
+    deprecation = deprecation,
+    sinceVersion = when (entityName) {
+        "visionosArm64", "visionosSimulatorArm64" -> "2.4.10"
+        else -> "2.0.20"
+    },
 )
 
 private val commonSourceSetConventions = listOf(
     CommonSourceSetConvention("common", "all declared targets", "jvm", "iosX64"),
     CommonSourceSetConvention("native", "all declared native targets", "linuxX64", "iosX64"),
-    CommonSourceSetConvention("apple", "all declared Apple targets (ios, macos, watchos, tvos)", "iosX64", "macosX64"),
+    CommonSourceSetConvention("apple", "all declared Apple targets (ios, macos, watchos, tvos, visionos)", "iosX64", "macosX64"),
     CommonSourceSetConvention("ios", "all declared iOS targets", "iosX64", "iosArm64"),
     CommonSourceSetConvention("tvos", "all declared tvOS targets", "tvosX64", "tvosArm64"),
     CommonSourceSetConvention("watchos", "all declared watchOS targets", "watchosX64", "watchosArm64"),
+    CommonSourceSetConvention(
+        "visionos",
+        "all declared visionOS targets",
+        "visionosArm64",
+        "visionosSimulatorArm64",
+        sinceVersion = "2.4.10",
+    ),
     CommonSourceSetConvention("macos", "all declared macOS targets", "macosX64", "macosArm64"),
     CommonSourceSetConvention("linux", "all declared Linux targets", "linuxX64", "linuxArm64"),
     CommonSourceSetConvention("mingw", "all declared Mingw targets", "mingwX64", "mingwX86"),
@@ -113,7 +131,7 @@ private fun List<PlatformSourceSetConvention>.generatePlatformInterfaceDeclarati
         fun add(compilationName: String) {
             appendLine()
             val sourceSetName = lowerCamelCaseName(entry.targetName, compilationName)
-            appendLine(leafSourceSetAccessorKdoc(sourceSetName, entry.targetName, compilationName))
+            appendLine(leafSourceSetAccessorKdoc(sourceSetName, entry.targetName, compilationName, entry.sinceVersion))
             val deprecation = entry.deprecation
             if (deprecation != null) {
                 appendLine("@Deprecated(${deprecation.message}, level = DeprecationLevel.${deprecation.level.name})")
@@ -136,7 +154,15 @@ private fun List<CommonSourceSetConvention>.generateCommonInterfaceDeclarations(
         fun add(compilationName: String) {
             appendLine()
             val sourceSetName = lowerCamelCaseName(entry.baseName, compilationName)
-            appendLine(commonSourceSetAccessorKdoc(sourceSetName, entry.allTargetsDescription, entry.sampleTarget1, entry.sampleTarget2))
+            appendLine(
+                commonSourceSetAccessorKdoc(
+                    sourceSetName,
+                    entry.allTargetsDescription,
+                    entry.sampleTarget1,
+                    entry.sampleTarget2,
+                    entry.sinceVersion,
+                )
+            )
             appendLine(sourceSetInterfaceDeclaration(sourceSetName))
         }
         add("main")
@@ -150,7 +176,12 @@ private fun sourceSetInterfaceDeclaration(sourceSetName: String) =
 private fun sourceSetImplDeclaration(sourceSetName: String) =
     "override val NamedDomainObjectContainer<KotlinSourceSet>.${sourceSetName} by KotlinSourceSetConvention"
 
-private fun leafSourceSetAccessorKdoc(sourceSetName: String, targetName: String, compilationName: String) = """
+private fun leafSourceSetAccessorKdoc(
+    sourceSetName: String,
+    targetName: String,
+    compilationName: String,
+    sinceVersion: String,
+) = """
     /**
      * Static accessor for the $compilationName Kotlin Source Set of $targetName target.
      * Declare $targetName target to access this source set.
@@ -170,11 +201,17 @@ private fun leafSourceSetAccessorKdoc(sourceSetName: String, targetName: String,
      * }
      * ```
      *
-     * @since 2.0.20
+     * @since $sinceVersion
      */
 """.trimIndent()
 
-private fun commonSourceSetAccessorKdoc(sourceSetName: String, description: String, sampleTarget1: String, sampleTarget2: String) = """
+private fun commonSourceSetAccessorKdoc(
+    sourceSetName: String,
+    description: String,
+    sampleTarget1: String,
+    sampleTarget2: String,
+    sinceVersion: String,
+) = """
     /**
      * Static accessor for shared kotlin Source Set between $description.
      * Declare at least one of the targets mentioned above to access this source set.
@@ -195,7 +232,7 @@ private fun commonSourceSetAccessorKdoc(sourceSetName: String, description: Stri
      * }
      * ```
      *
-     * @since 1.9.20
+     * @since $sinceVersion
      */
 """.trimIndent()
 

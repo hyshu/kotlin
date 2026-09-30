@@ -80,6 +80,38 @@ class XCFrameworkTaskTest {
     }
 
     @Test
+    fun `expected xcframework input slices - visionOS device and simulator stay separate`() {
+        val project = buildProjectWithMPP {
+            val xcframework = XCFramework()
+            kotlin {
+                listOf(
+                    visionosArm64(),
+                    visionosSimulatorArm64(),
+                ).forEach {
+                    it.binaries.framework {
+                        xcframework.add(this)
+                    }
+                }
+            }
+        }.evaluate()
+
+        val xcframeworkTask = assertIsInstance<XCFrameworkTask>(project.tasks.getByName("assembleTestReleaseXCFramework"))
+
+        assertEquals(
+            listOf(
+                project.buildFile("bin/visionosArm64/releaseFramework/test.framework"),
+                project.buildFile("bin/visionosSimulatorArm64/releaseFramework/test.framework"),
+            ),
+            xcframeworkTask.xcframeworkSlices().map { it.descriptor.file }
+        )
+        assertTrue(
+            xcframeworkTask.taskDependencies.getDependencies(null)
+                .filterIsInstance<FatFrameworkTask>()
+                .none { it.frameworks.size > 1 }
+        )
+    }
+
+    @Test
     fun `expected xcframework input slices - contain only universal framework - when multiple frameworks must be merged`() {
         val project = buildProjectWithMPP {
             val xcframework = XCFramework()

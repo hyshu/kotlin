@@ -41,7 +41,9 @@ internal enum class AppleTarget(
     WATCHOS_DEVICE("watchos", listOf(KonanTarget.WATCHOS_ARM32, KonanTarget.WATCHOS_ARM64, KonanTarget.WATCHOS_DEVICE_ARM64)),
     WATCHOS_SIMULATOR("watchosSimulator", listOf(KonanTarget.WATCHOS_X64, KonanTarget.WATCHOS_SIMULATOR_ARM64)),
     TVOS_DEVICE("tvos", listOf(KonanTarget.TVOS_ARM64)),
-    TVOS_SIMULATOR("tvosSimulator", listOf(KonanTarget.TVOS_X64, KonanTarget.TVOS_SIMULATOR_ARM64))
+    TVOS_SIMULATOR("tvosSimulator", listOf(KonanTarget.TVOS_X64, KonanTarget.TVOS_SIMULATOR_ARM64)),
+    VISIONOS_DEVICE("visionos", listOf(KonanTarget.VISIONOS_ARM64)),
+    VISIONOS_SIMULATOR("visionosSimulator", listOf(KonanTarget.VISIONOS_SIMULATOR_ARM64)),
 }
 
 internal class XCFrameworkTaskHolder(

@@ -81,6 +81,7 @@ internal val Family.platformLiteral: String
         Family.IOS -> "ios"
         Family.TVOS -> "tvos"
         Family.WATCHOS -> "watchos"
+        Family.VISIONOS -> "visionos"
         else -> throw IllegalArgumentException("Bad family ${this.name}")
     }
 
@@ -493,6 +494,7 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
                 Family.OSX -> cocoapodsExtension.osx
                 Family.TVOS -> cocoapodsExtension.tvos
                 Family.WATCHOS -> cocoapodsExtension.watchos
+                Family.VISIONOS -> cocoapodsExtension.visionos
                 else -> error("Unknown cocoapods platform: $family")
             }
 
@@ -681,6 +683,7 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
         osx.set(cocoapodsExtension.osx)
         tvos.set(cocoapodsExtension.tvos)
         watchos.set(cocoapodsExtension.watchos)
+        visionos.set(cocoapodsExtension.visionos)
         projectPath.set(project.taskProjectPath())
         hasPodfile.setProvider { cocoapodsExtension.podfile != null }
     }
@@ -849,5 +852,4 @@ open class KotlinCocoapodsPlugin : Plugin<Project> {
         const val GENERATE_WRAPPER_PROPERTY = "kotlin.native.cocoapods.generate.wrapper"
     }
 }
-
 

@@ -81,7 +81,9 @@ private val nativeTargetsWithSimulatorTests =
         KonanTarget.WATCHOS_SIMULATOR_ARM64,
 
         KonanTarget.TVOS_X64,
-        KonanTarget.TVOS_SIMULATOR_ARM64
+        KonanTarget.TVOS_SIMULATOR_ARM64,
+
+        KonanTarget.VISIONOS_SIMULATOR_ARM64,
     )
 
 internal val nativePresetEntries = HostManager().targets

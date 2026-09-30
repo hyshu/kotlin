@@ -392,6 +392,7 @@ internal object KotlinToolingDiagnostics {
                             Family.TVOS -> "'tvOS Application'"
                             Family.OSX -> "'macOS Application'"
                             Family.IOS -> "'iOS Application'"
+                            Family.VISIONOS -> "'visionOS Application'"
                             else -> null
                         }
                     }.distinct().mapNotNull { app ->

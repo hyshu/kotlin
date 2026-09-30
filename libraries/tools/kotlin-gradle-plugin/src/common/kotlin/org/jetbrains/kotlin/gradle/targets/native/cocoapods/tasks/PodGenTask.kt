@@ -127,6 +127,7 @@ abstract class PodGenTask @Inject constructor(projectLayout: ProjectLayout) : Co
             Family.OSX -> Spec("MACOSX_DEPLOYMENT_TARGET", 10, 13)
             Family.TVOS -> Spec("TVOS_DEPLOYMENT_TARGET", 12, 0)
             Family.WATCHOS -> Spec("WATCHOS_DEPLOYMENT_TARGET", 4, 0)
+            Family.VISIONOS -> Spec("XROS_DEPLOYMENT_TARGET", 1, 0)
             else -> error("Family $family is not an Apple platform")
         }
 

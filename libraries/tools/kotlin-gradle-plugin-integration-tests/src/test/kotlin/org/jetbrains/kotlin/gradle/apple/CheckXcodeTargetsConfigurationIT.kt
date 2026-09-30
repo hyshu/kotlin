@@ -92,7 +92,7 @@ class CheckXcodeTargetsConfigurationIT : KGPBaseTest() {
                         iosArm64(),
                         macosArm64(),
                         tvosArm64(),
-                        watchosArm64()
+                        watchosArm64(),
                     ).forEach { it.binaries.framework() }
                 }
             }
@@ -104,6 +104,29 @@ class CheckXcodeTargetsConfigurationIT : KGPBaseTest() {
                 assertOutputContains("'watchos_arm64'")
                 assertOutputDoesNotContain("'ios_arm64'")
                 assertOutputDoesNotContain("'macos_arm64'")
+            }
+        }
+    }
+
+    @DisplayName("Checker reports a missing visionOS Kotlin target")
+    @GradleTest
+    fun testVisionosTargetMissing(
+        gradleVersion: GradleVersion,
+    ) {
+        project("empty", gradleVersion) {
+            embedDirectoryFromTestData("xcodeProjectConfiguration/iosApp_ios", "iosApp")
+            plugins {
+                kotlin("multiplatform")
+            }
+            buildScriptInjection {
+                project.applyMultiplatform {
+                    visionosArm64().binaries.framework()
+                }
+            }
+            build(ideaImportTask) {
+                assertTasksExecuted(convertPbxprojToJsonTask, xcodeCheckTask)
+                assertHasDiagnostic(KotlinToolingDiagnostics.MissingXcodeTargetDiagnostic)
+                assertNoDiagnostic(KotlinToolingDiagnostics.NoApplicationTargetFoundDiagnostic)
             }
         }
     }

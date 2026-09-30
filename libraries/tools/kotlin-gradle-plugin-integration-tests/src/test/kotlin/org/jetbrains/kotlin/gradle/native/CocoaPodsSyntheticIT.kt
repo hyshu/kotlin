@@ -11,6 +11,8 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.condition.OS
 import kotlin.io.path.appendText
+import kotlin.io.path.readText
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @OptIn(EnvironmentalVariablesOverride::class)
@@ -70,6 +72,66 @@ class CocoaPodsSyntheticIT : KGPBaseTest() {
                     "config.build_settings['EXPANDED_CODE_SIGN_IDENTITY'] = \"\"",
                     "config.build_settings['CODE_SIGNING_REQUIRED'] = \"NO\"",
                     "config.build_settings['CODE_SIGNING_ALLOWED'] = \"NO\""
+                )
+            }
+        }
+    }
+
+    @DisplayName("Synthetic visionOS project pod installation")
+    @GradleTest
+    fun testSyntheticVisionosProjectPodInstallation(gradleVersion: GradleVersion) {
+        nativeProject(
+            cocoapodsSingleKtPod,
+            gradleVersion,
+            environmentVariables = environmentVariables
+        ) {
+            buildGradleKts.appendText(
+                """
+
+                kotlin {
+                    visionosArm64()
+                    visionosSimulatorArm64()
+                }
+                """.trimIndent()
+            )
+            buildGradleKts.addCocoapodsBlock(
+                """
+                visionos.deploymentTarget = "1.0"
+                pod("SSZipArchive")
+                """.trimIndent()
+            )
+
+            build(":podInstallSyntheticVisionos", ":podspec") {
+                assertTasksExecuted(":podGenVisionos", ":podInstallSyntheticVisionos", ":podspec")
+                val podfile = projectPath.resolve("build/cocoapods/synthetic/visionos/Podfile").readText()
+                val podspec = projectPath.resolve("cocoapods.podspec").readText()
+
+                assertEquals(
+                    "visionos",
+                    Regex("""(?m)^target '([^']+)' do$""").find(podfile)?.groupValues?.get(1),
+                )
+                assertEquals(
+                    listOf("visionos", "1.0"),
+                    Regex("""(?m)^\s*platform :([^,]+), '([^']+)'$""").find(podfile)?.groupValues?.drop(1),
+                )
+                assertEquals(
+                    "SSZipArchive",
+                    Regex("""(?m)^\s*pod '([^']+)'$""").find(podfile)?.groupValues?.get(1),
+                )
+                assertEquals(
+                    listOf("XROS_DEPLOYMENT_TARGET"),
+                    Regex("""config\.build_settings\['([^']+_DEPLOYMENT_TARGET)'\]""")
+                        .findAll(podfile)
+                        .map { it.groupValues[1] }
+                        .distinct()
+                        .toList(),
+                )
+                assertEquals(
+                    "1.0",
+                    Regex("""(?m)^\s*spec\.visionos\.deployment_target\s*=\s*'([^']+)'$""")
+                        .find(podspec)
+                        ?.groupValues
+                        ?.get(1),
                 )
             }
         }

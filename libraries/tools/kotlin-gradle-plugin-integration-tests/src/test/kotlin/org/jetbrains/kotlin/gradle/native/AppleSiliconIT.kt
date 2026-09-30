@@ -11,6 +11,7 @@ import org.jetbrains.kotlin.konan.target.HostManager
 import org.jetbrains.kotlin.konan.target.KonanTarget
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.condition.OS
+import kotlin.io.path.appendText
 import kotlin.test.fail
 
 @OsCondition(supportedOn = [OS.MAC], enabledOnCI = [OS.MAC])
@@ -24,6 +25,7 @@ class AppleSiliconIT : KGPBaseTest() {
     @GradleTest
     fun shouldCompiledSuccessfully(gradleVersion: GradleVersion) {
         nativeProject("appleSilicon", gradleVersion) {
+            gradleProperties.appendText("\nenableVisionosTargets=true")
             build("assemble") {
                 assertTasksExecuted(
                     ":compileKotlinIosArm64",
@@ -34,6 +36,8 @@ class AppleSiliconIT : KGPBaseTest() {
                     ":compileKotlinTvosArm64",
                     ":compileKotlinTvosSimulatorArm64",
                     ":compileKotlinTvosX64",
+                    ":compileKotlinVisionosArm64",
+                    ":compileKotlinVisionosSimulatorArm64",
                     ":compileKotlinWatchosArm32",
                     ":compileKotlinWatchosArm64",
                     ":compileKotlinWatchosSimulatorArm64",

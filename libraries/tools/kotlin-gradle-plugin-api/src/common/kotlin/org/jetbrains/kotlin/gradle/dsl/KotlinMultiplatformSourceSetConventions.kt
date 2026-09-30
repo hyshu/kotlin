@@ -118,7 +118,7 @@ interface KotlinMultiplatformSourceSetConventions {
     val NamedDomainObjectContainer<KotlinSourceSet>.nativeTest: NamedDomainObjectProvider<KotlinSourceSet>
 
     /**
-     * Static accessor for shared kotlin Source Set between all declared Apple targets (ios, macos, watchos, tvos).
+     * Static accessor for shared kotlin Source Set between all declared Apple targets (ios, macos, watchos, tvos, visionos).
      * Declare at least one of the targets mentioned above to access this source set.
      * If no targets were declared, accessing this source set will cause a runtime error during configuration time.
      *
@@ -142,7 +142,7 @@ interface KotlinMultiplatformSourceSetConventions {
     val NamedDomainObjectContainer<KotlinSourceSet>.appleMain: NamedDomainObjectProvider<KotlinSourceSet>
 
     /**
-     * Static accessor for shared kotlin Source Set between all declared Apple targets (ios, macos, watchos, tvos).
+     * Static accessor for shared kotlin Source Set between all declared Apple targets (ios, macos, watchos, tvos, visionos).
      * Declare at least one of the targets mentioned above to access this source set.
      * If no targets were declared, accessing this source set will cause a runtime error during configuration time.
      *
@@ -308,6 +308,54 @@ interface KotlinMultiplatformSourceSetConventions {
      * @since 1.9.20
      */
     val NamedDomainObjectContainer<KotlinSourceSet>.watchosTest: NamedDomainObjectProvider<KotlinSourceSet>
+
+    /**
+     * Static accessor for shared kotlin Source Set between all declared visionOS targets.
+     * Declare at least one of the targets mentioned above to access this source set.
+     * If no targets were declared, accessing this source set will cause a runtime error during configuration time.
+     *
+     * Sample:
+     *
+     * ```kotlin
+     * kotlin {
+     *    visionosArm64()
+     *    visionosSimulatorArm64()
+     *
+     *    sourceSets {
+     *      visionosMain.dependencies {
+     *          // Add visionosMain dependencies here
+     *      }
+     *    }
+     * }
+     * ```
+     *
+     * @since 2.4.10
+     */
+    val NamedDomainObjectContainer<KotlinSourceSet>.visionosMain: NamedDomainObjectProvider<KotlinSourceSet>
+
+    /**
+     * Static accessor for shared kotlin Source Set between all declared visionOS targets.
+     * Declare at least one of the targets mentioned above to access this source set.
+     * If no targets were declared, accessing this source set will cause a runtime error during configuration time.
+     *
+     * Sample:
+     *
+     * ```kotlin
+     * kotlin {
+     *    visionosArm64()
+     *    visionosSimulatorArm64()
+     *
+     *    sourceSets {
+     *      visionosTest.dependencies {
+     *          // Add visionosTest dependencies here
+     *      }
+     *    }
+     * }
+     * ```
+     *
+     * @since 2.4.10
+     */
+    val NamedDomainObjectContainer<KotlinSourceSet>.visionosTest: NamedDomainObjectProvider<KotlinSourceSet>
 
     /**
      * Static accessor for shared kotlin Source Set between all declared macOS targets.
@@ -1490,6 +1538,98 @@ interface KotlinMultiplatformSourceSetConventions {
      */
     @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.WARNING)
     val NamedDomainObjectContainer<KotlinSourceSet>.tvosX64Test: NamedDomainObjectProvider<KotlinSourceSet>
+
+    /**
+     * Static accessor for the main Kotlin Source Set of visionosArm64 target.
+     * Declare visionosArm64 target to access this source set.
+     * If visionosArm64 target wasn't declared, accessing this source set will cause a runtime error during configuration time.
+     *
+     * Sample:
+     *
+     * ```kotlin
+     * kotlin {
+     *    visionosArm64() // Target is declared, visionosArm64Main source set is created
+     *
+     *    sourceSets {
+     *      visionosArm64Main.dependencies {
+     *          // Add visionosArm64Main dependencies here
+     *      }
+     *    }
+     * }
+     * ```
+     *
+     * @since 2.4.10
+     */
+    val NamedDomainObjectContainer<KotlinSourceSet>.visionosArm64Main: NamedDomainObjectProvider<KotlinSourceSet>
+
+    /**
+     * Static accessor for the test Kotlin Source Set of visionosArm64 target.
+     * Declare visionosArm64 target to access this source set.
+     * If visionosArm64 target wasn't declared, accessing this source set will cause a runtime error during configuration time.
+     *
+     * Sample:
+     *
+     * ```kotlin
+     * kotlin {
+     *    visionosArm64() // Target is declared, visionosArm64Test source set is created
+     *
+     *    sourceSets {
+     *      visionosArm64Test.dependencies {
+     *          // Add visionosArm64Test dependencies here
+     *      }
+     *    }
+     * }
+     * ```
+     *
+     * @since 2.4.10
+     */
+    val NamedDomainObjectContainer<KotlinSourceSet>.visionosArm64Test: NamedDomainObjectProvider<KotlinSourceSet>
+
+    /**
+     * Static accessor for the main Kotlin Source Set of visionosSimulatorArm64 target.
+     * Declare visionosSimulatorArm64 target to access this source set.
+     * If visionosSimulatorArm64 target wasn't declared, accessing this source set will cause a runtime error during configuration time.
+     *
+     * Sample:
+     *
+     * ```kotlin
+     * kotlin {
+     *    visionosSimulatorArm64() // Target is declared, visionosSimulatorArm64Main source set is created
+     *
+     *    sourceSets {
+     *      visionosSimulatorArm64Main.dependencies {
+     *          // Add visionosSimulatorArm64Main dependencies here
+     *      }
+     *    }
+     * }
+     * ```
+     *
+     * @since 2.4.10
+     */
+    val NamedDomainObjectContainer<KotlinSourceSet>.visionosSimulatorArm64Main: NamedDomainObjectProvider<KotlinSourceSet>
+
+    /**
+     * Static accessor for the test Kotlin Source Set of visionosSimulatorArm64 target.
+     * Declare visionosSimulatorArm64 target to access this source set.
+     * If visionosSimulatorArm64 target wasn't declared, accessing this source set will cause a runtime error during configuration time.
+     *
+     * Sample:
+     *
+     * ```kotlin
+     * kotlin {
+     *    visionosSimulatorArm64() // Target is declared, visionosSimulatorArm64Test source set is created
+     *
+     *    sourceSets {
+     *      visionosSimulatorArm64Test.dependencies {
+     *          // Add visionosSimulatorArm64Test dependencies here
+     *      }
+     *    }
+     * }
+     * ```
+     *
+     * @since 2.4.10
+     */
+    val NamedDomainObjectContainer<KotlinSourceSet>.visionosSimulatorArm64Test: NamedDomainObjectProvider<KotlinSourceSet>
 
     /**
      * Static accessor for the main Kotlin Source Set of watchosArm32 target.

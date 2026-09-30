@@ -213,9 +213,9 @@ internal constructor(
      *             │       │       │           │
      *           apple   linux   mingw   androidNative
      *             │
-     *   ┌──────┬──┴──┬────────┐
-     *   │      │     │        │
-     * macos   ios   tvos   watchos
+     *   ┌──────┬──┴──┬────────┬──────────┐
+     *   │      │     │        │          │
+     * macos   ios   tvos   watchos   visionos
      * ```
      *
      * @see KotlinHierarchyTemplate.extend

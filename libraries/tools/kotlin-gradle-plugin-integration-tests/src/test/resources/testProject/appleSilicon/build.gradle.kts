@@ -19,6 +19,10 @@ kotlin {
     tvosArm64()
     tvosX64()
     tvosSimulatorArm64()
+    if (providers.gradleProperty("enableVisionosTargets").orNull == "true") {
+        visionosArm64()
+        visionosSimulatorArm64()
+    }
 
     macosX64 {
         binaries.executable {
@@ -59,4 +63,3 @@ allprojects {
         mavenLocal()
     }
 }
-

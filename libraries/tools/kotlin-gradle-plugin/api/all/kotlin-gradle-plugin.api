@@ -719,6 +719,7 @@ public abstract class org/jetbrains/kotlin/gradle/plugin/cocoapods/CocoapodsExte
 	public final fun getSummary ()Ljava/lang/String;
 	public final fun getTvos ()Lorg/jetbrains/kotlin/gradle/plugin/cocoapods/CocoapodsExtension$PodspecPlatformSettings;
 	public final fun getVersion ()Ljava/lang/String;
+	public final fun getVisionos ()Lorg/jetbrains/kotlin/gradle/plugin/cocoapods/CocoapodsExtension$PodspecPlatformSettings;
 	public final fun getWatchos ()Lorg/jetbrains/kotlin/gradle/plugin/cocoapods/CocoapodsExtension$PodspecPlatformSettings;
 	public final fun getXcodeConfigurationToNativeBuildType ()Ljava/util/Map;
 	public final fun noPodspec ()V
@@ -1580,6 +1581,7 @@ public final class org/jetbrains/kotlin/gradle/plugin/mpp/apple/swiftimport/Swif
 	public static final field iOS Lorg/jetbrains/kotlin/gradle/plugin/mpp/apple/swiftimport/SwiftPMDependency$Platform;
 	public static final field macOS Lorg/jetbrains/kotlin/gradle/plugin/mpp/apple/swiftimport/SwiftPMDependency$Platform;
 	public static final field tvOS Lorg/jetbrains/kotlin/gradle/plugin/mpp/apple/swiftimport/SwiftPMDependency$Platform;
+	public static final field visionOS Lorg/jetbrains/kotlin/gradle/plugin/mpp/apple/swiftimport/SwiftPMDependency$Platform;
 	public static final field watchOS Lorg/jetbrains/kotlin/gradle/plugin/mpp/apple/swiftimport/SwiftPMDependency$Platform;
 	public final fun getSwiftEnumName ()Ljava/lang/String;
 	public static fun valueOf (Ljava/lang/String;)Lorg/jetbrains/kotlin/gradle/plugin/mpp/apple/swiftimport/SwiftPMDependency$Platform;
@@ -1851,6 +1853,7 @@ public abstract class org/jetbrains/kotlin/gradle/plugin/mpp/apple/swiftimport/S
 	public final fun getMacosMinimumDeploymentTarget ()Lorg/gradle/api/provider/Property;
 	public final fun getPackageResolvedSynchronization ()Lorg/jetbrains/kotlin/gradle/plugin/mpp/apple/swiftimport/PackageResolvedSynchronization;
 	public final fun getTvosMinimumDeploymentTarget ()Lorg/gradle/api/provider/Property;
+	public final fun getVisionosMinimumDeploymentTarget ()Lorg/gradle/api/provider/Property;
 	public final fun getWatchosMinimumDeploymentTarget ()Lorg/gradle/api/provider/Property;
 	public final fun iOS ()Lorg/jetbrains/kotlin/gradle/plugin/mpp/apple/swiftimport/SwiftPMDependency$Platform;
 	public final fun id (Ljava/lang/String;)Lorg/jetbrains/kotlin/gradle/plugin/mpp/apple/swiftimport/SwiftPMDependency$Remote$Repository$Id;
@@ -1874,6 +1877,7 @@ public abstract class org/jetbrains/kotlin/gradle/plugin/mpp/apple/swiftimport/S
 	public static synthetic fun swiftPackage$default (Lorg/jetbrains/kotlin/gradle/plugin/mpp/apple/swiftimport/SwiftPMImportExtension;Lorg/jetbrains/kotlin/gradle/plugin/mpp/apple/swiftimport/SwiftPMDependency$Remote$Repository;Lorg/jetbrains/kotlin/gradle/plugin/mpp/apple/swiftimport/SwiftPMDependency$Remote$Version;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Ljava/util/Set;ILjava/lang/Object;)V
 	public final fun tvOS ()Lorg/jetbrains/kotlin/gradle/plugin/mpp/apple/swiftimport/SwiftPMDependency$Platform;
 	public final fun url (Ljava/lang/String;)Lorg/jetbrains/kotlin/gradle/plugin/mpp/apple/swiftimport/SwiftPMDependency$Remote$Repository$Url;
+	public final fun visionOS ()Lorg/jetbrains/kotlin/gradle/plugin/mpp/apple/swiftimport/SwiftPMDependency$Platform;
 	public final fun watchOS ()Lorg/jetbrains/kotlin/gradle/plugin/mpp/apple/swiftimport/SwiftPMDependency$Platform;
 }
 

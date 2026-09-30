@@ -12,12 +12,44 @@ import org.jetbrains.kotlin.buildtools.api.ExperimentalBuildToolsApi
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.abi.utils.abiValidation
 import org.jetbrains.kotlin.gradle.abi.utils.kmpProject
+import org.jetbrains.kotlin.gradle.abi.utils.referenceKlibDumpFile
 import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 import org.jetbrains.kotlin.gradle.testbase.*
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.condition.OS
+import kotlin.test.assertEquals
 
 @MppGradlePluginTests
 class AbiValidationCheckKmpIT : KGPBaseTest() {
+    @GradleTest
+    @OsCondition(supportedOn = [OS.MAC], enabledOnCI = [OS.MAC])
+    fun testVisionOsAbiValidation(gradleVersion: GradleVersion) {
+        kmpProject(gradleVersion) {
+            kotlinSourcesDir("commonMain").source("spatial") {
+                "fun spatialValue(): Int = 1"
+            }
+            buildScriptInjection {
+                kotlinMultiplatform.visionosArm64()
+                kotlinMultiplatform.visionosSimulatorArm64()
+            }
+            abiValidation()
+
+            build("updateKotlinAbi")
+            val targets = referenceKlibDumpFile().readLines()
+                .single { it.startsWith("// Targets: [") }
+                .substringAfter('[')
+                .substringBefore(']')
+                .split(',')
+                .map { it.trim() }
+                .toSet()
+            assertEquals(setOf("visionosArm64", "visionosSimulatorArm64"), targets)
+
+            build("checkKotlinAbi") {
+                assertTasksExecuted(":checkKotlinAbi")
+            }
+        }
+    }
+
     @GradleTest
     fun testForEnabledAbiValidation(
         gradleVersion: GradleVersion,

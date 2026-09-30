@@ -42,6 +42,10 @@ internal object KotlinMultiplatformSourceSetConventionsImpl : KotlinMultiplatfor
 
     override val NamedDomainObjectContainer<KotlinSourceSet>.watchosTest by KotlinSourceSetConvention
 
+    override val NamedDomainObjectContainer<KotlinSourceSet>.visionosMain by KotlinSourceSetConvention
+
+    override val NamedDomainObjectContainer<KotlinSourceSet>.visionosTest by KotlinSourceSetConvention
+
     override val NamedDomainObjectContainer<KotlinSourceSet>.macosMain by KotlinSourceSetConvention
 
     override val NamedDomainObjectContainer<KotlinSourceSet>.macosTest by KotlinSourceSetConvention
@@ -163,6 +167,14 @@ internal object KotlinMultiplatformSourceSetConventionsImpl : KotlinMultiplatfor
 
     @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.WARNING)
     override val NamedDomainObjectContainer<KotlinSourceSet>.tvosX64Test by KotlinSourceSetConvention
+
+    override val NamedDomainObjectContainer<KotlinSourceSet>.visionosArm64Main by KotlinSourceSetConvention
+
+    override val NamedDomainObjectContainer<KotlinSourceSet>.visionosArm64Test by KotlinSourceSetConvention
+
+    override val NamedDomainObjectContainer<KotlinSourceSet>.visionosSimulatorArm64Main by KotlinSourceSetConvention
+
+    override val NamedDomainObjectContainer<KotlinSourceSet>.visionosSimulatorArm64Test by KotlinSourceSetConvention
 
     override val NamedDomainObjectContainer<KotlinSourceSet>.watchosArm32Main by KotlinSourceSetConvention
 

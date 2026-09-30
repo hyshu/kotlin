@@ -29,7 +29,8 @@ internal val KotlinMultiplatformTargetPresetAction = KotlinProjectSetupAction {
         val nativeTargetsWithSimulatorTests = setOf(
             IOS_X64, IOS_SIMULATOR_ARM64,
             WATCHOS_X64, WATCHOS_SIMULATOR_ARM64,
-            TVOS_X64, TVOS_SIMULATOR_ARM64
+            TVOS_X64, TVOS_SIMULATOR_ARM64,
+            VISIONOS_SIMULATOR_ARM64,
         )
 
         HostManager().targets.forEach { (_, konanTarget) ->

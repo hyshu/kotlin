@@ -351,6 +351,38 @@ interface KotlinTargetContainerWithPresetFunctions : KotlinTargetsContainer {
 
     fun tvosSimulatorArm64(configure: Action<KotlinNativeTargetWithSimulatorTests>) = tvosSimulatorArm64 { configure.execute(this) }
 
+    fun visionosArm64(
+        name: String = "visionosArm64",
+        configure: KotlinNativeTarget.() -> Unit = { }
+    ): KotlinNativeTarget
+
+    fun visionosArm64() = visionosArm64("visionosArm64") { }
+
+    fun visionosArm64(name: String) = visionosArm64(name) { }
+
+    fun visionosArm64(
+        name: String,
+        configure: Action<KotlinNativeTarget>
+    ) = visionosArm64(name) { configure.execute(this) }
+
+    fun visionosArm64(configure: Action<KotlinNativeTarget>) = visionosArm64 { configure.execute(this) }
+
+    fun visionosSimulatorArm64(
+        name: String = "visionosSimulatorArm64",
+        configure: KotlinNativeTargetWithSimulatorTests.() -> Unit = { }
+    ): KotlinNativeTargetWithSimulatorTests
+
+    fun visionosSimulatorArm64() = visionosSimulatorArm64("visionosSimulatorArm64") { }
+
+    fun visionosSimulatorArm64(name: String) = visionosSimulatorArm64(name) { }
+
+    fun visionosSimulatorArm64(
+        name: String,
+        configure: Action<KotlinNativeTargetWithSimulatorTests>
+    ) = visionosSimulatorArm64(name) { configure.execute(this) }
+
+    fun visionosSimulatorArm64(configure: Action<KotlinNativeTargetWithSimulatorTests>) = visionosSimulatorArm64 { configure.execute(this) }
+
     fun linuxX64(
         name: String = "linuxX64",
         configure: KotlinNativeTargetWithHostTests.() -> Unit = { }
@@ -673,6 +705,28 @@ internal abstract class DefaultKotlinTargetContainerWithPresetFunctions @Inject 
         configureOrCreate(
             name,
             presets.getByName("tvosSimulatorArm64") as KotlinNativeTargetWithSimulatorTestsPreset,
+            project,
+            configure
+        )
+
+    override fun visionosArm64(
+        name: String,
+        configure: KotlinNativeTarget.() -> Unit
+    ): KotlinNativeTarget =
+        configureOrCreate(
+            name,
+            presets.getByName("visionosArm64") as KotlinNativeTargetPreset,
+            project,
+            configure
+        )
+
+    override fun visionosSimulatorArm64(
+        name: String,
+        configure: KotlinNativeTargetWithSimulatorTests.() -> Unit
+    ): KotlinNativeTargetWithSimulatorTests =
+        configureOrCreate(
+            name,
+            presets.getByName("visionosSimulatorArm64") as KotlinNativeTargetWithSimulatorTestsPreset,
             project,
             configure
         )

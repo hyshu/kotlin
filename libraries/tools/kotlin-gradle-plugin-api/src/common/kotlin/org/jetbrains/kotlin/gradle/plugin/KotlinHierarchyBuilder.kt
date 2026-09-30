@@ -186,6 +186,13 @@ interface KotlinHierarchyBuilder {
     fun withTvos()
 
     /**
+     * Only includes Kotlin's Apple/visionOS targets in this [group].
+     *
+     * For more information, see [Native targets overview](https://kotlinlang.org/docs/native-target-support.html).
+     */
+    fun withVisionos()
+
+    /**
      * Only includes Kotlin's MinGW targets in this [group].
      *
      * For more information, see [Native targets overview](https://kotlinlang.org/docs/native-target-support.html).
@@ -335,6 +342,20 @@ interface KotlinHierarchyBuilder {
      * For more information, see [Native targets overview](https://kotlinlang.org/docs/native-target-support.html).
      */
     fun withTvosSimulatorArm64()
+
+    /**
+     * Only includes Kotlin's Apple/visionosArm64 target in this [group].
+     *
+     * For more information, see [Native targets overview](https://kotlinlang.org/docs/native-target-support.html).
+     */
+    fun withVisionosArm64()
+
+    /**
+     * Only includes Kotlin's Apple/visionosSimulatorArm64 target in this [group].
+     *
+     * For more information, see [Native targets overview](https://kotlinlang.org/docs/native-target-support.html).
+     */
+    fun withVisionosSimulatorArm64()
 
     /**
      * Only includes Kotlin's linuxX64 target in this [group].

@@ -46,9 +46,9 @@ sealed interface KotlinHierarchyTemplate {
          *             │       │       │           │          │       │
          *           apple   linux   mingw   androidNative    js    wasmJs
          *             │
-         *   ┌──────┬──┴──┬────────┐
-         *   │      │     │        │
-         * macos   ios   tvos   watchos
+         *   ┌──────┬──┴──┬────────┬──────────┐
+         *   │      │     │        │          │
+         * macos   ios   tvos   watchos   visionos
          * ```
          */
         val default get() = defaultKotlinHierarchyTemplate
@@ -154,6 +154,10 @@ private val defaultKotlinHierarchyTemplate = KotlinHierarchyTemplate {
 
                 group("macos") {
                     withMacos()
+                }
+
+                group("visionos") {
+                    withVisionos()
                 }
             }
 

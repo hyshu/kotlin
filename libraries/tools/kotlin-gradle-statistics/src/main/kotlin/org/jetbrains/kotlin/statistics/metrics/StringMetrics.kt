@@ -44,6 +44,8 @@ enum class StringMetrics(val type: StringOverridePolicy, val anonymization: Stri
                 "tvos_arm64",
                 "tvos_x64",
                 "tvos_simulator_arm64",
+                "visionos_arm64",
+                "visionos_simulator_arm64",
                 "linux_arm32_hfp",
                 "linux_arm64",
                 "linux_x64",
@@ -93,6 +95,6 @@ enum class StringMetrics(val type: StringOverridePolicy, val anonymization: Stri
 
 
     companion object {
-        const val VERSION = 10
+        const val VERSION = 11
     }
 }

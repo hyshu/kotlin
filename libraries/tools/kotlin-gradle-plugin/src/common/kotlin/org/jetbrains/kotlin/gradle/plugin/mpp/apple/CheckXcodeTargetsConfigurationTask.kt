@@ -374,6 +374,7 @@ private fun getExpectedSdkRoot(target: KonanTarget) = when (target.family) {
     Family.IOS -> "iphoneos"
     Family.TVOS -> "appletvos"
     Family.WATCHOS -> "watchos"
+    Family.VISIONOS -> "xros"
     else -> unknownSdkRoot
 }
 

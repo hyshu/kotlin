@@ -70,6 +70,10 @@ internal abstract class SerializeSwiftPMDependenciesMetadata : DefaultTask() {
     @get:Input
     protected abstract val tvosDeploymentVersion: Property<String>
 
+    @get:Optional
+    @get:Input
+    protected abstract val visionosDeploymentVersion: Property<String>
+
     @get:Input
     protected abstract val discoverModulesImplicitly: Property<Boolean>
 
@@ -84,6 +88,7 @@ internal abstract class SerializeSwiftPMDependenciesMetadata : DefaultTask() {
         macosDeploymentVersion.set(swiftPMImportExtension.macosMinimumDeploymentTarget)
         watchosDeploymentVersion.set(swiftPMImportExtension.watchosMinimumDeploymentTarget)
         tvosDeploymentVersion.set(swiftPMImportExtension.tvosMinimumDeploymentTarget)
+        visionosDeploymentVersion.set(swiftPMImportExtension.visionosMinimumDeploymentTarget)
         discoverModulesImplicitly.set(swiftPMImportExtension.discoverClangModulesImplicitly)
         importedSpmModules.set(swiftPMImportExtension.swiftPMDependencies)
     }
@@ -103,6 +108,7 @@ internal abstract class SerializeSwiftPMDependenciesMetadata : DefaultTask() {
         tvosDeploymentVersion = tvosDeploymentVersion.orNull,
         isModulesDiscoveryEnabled = discoverModulesImplicitly.get(),
         dependencies = importedSpmModules.get(),
+        visionosDeploymentVersion = visionosDeploymentVersion.orNull,
     )
 
     companion object {

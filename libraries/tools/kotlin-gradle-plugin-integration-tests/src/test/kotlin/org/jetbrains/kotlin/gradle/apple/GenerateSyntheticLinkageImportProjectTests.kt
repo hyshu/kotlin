@@ -58,17 +58,18 @@ class GenerateSyntheticLinkageImportProjectTests : KGPBaseTest() {
                 }
                 project.tasks.register<GenerateSyntheticLinkageImportProject>("packageGeneration") {
                     configureWithExtension(extension)
-                    konanTargets.set(setOf(KonanTarget.IOS_ARM64))
+                    konanTargets.set(setOf(KonanTarget.IOS_ARM64, KonanTarget.VISIONOS_ARM64))
                     dependencyIdentifierToImportedSwiftPMDependencies.set(TransitiveSwiftPMDependencies(emptyMap()))
                     syntheticProductType.set(SyntheticProductType.INFERRED)
                 }
             }
             build("packageGeneration")
 
+            val generatedPackageDirectory = projectPath.resolve("build/kotlin/swiftImport")
             val generatedPackage = json.decodeFromString<PackageDescription>(
                 runProcess(
                     listOf("swift", "package", "describe", "--type", "json"),
-                    projectPath.resolve("build/kotlin/swiftImport").toFile(),
+                    generatedPackageDirectory.toFile(),
                 ).output
             )
 
@@ -92,6 +93,10 @@ class GenerateSyntheticLinkageImportProjectTests : KGPBaseTest() {
                         PackageDescription.PackagePlatform(
                             name = "ios",
                             version = "123.0",
+                        ),
+                        PackageDescription.PackagePlatform(
+                            name = "visionos",
+                            version = "1.0",
                         ),
                     ),
                     products = listOf(

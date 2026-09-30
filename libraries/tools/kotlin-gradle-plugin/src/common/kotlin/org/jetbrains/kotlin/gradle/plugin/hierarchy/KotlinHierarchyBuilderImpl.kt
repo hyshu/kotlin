@@ -140,6 +140,8 @@ private class KotlinHierarchyBuilderImpl(
 
     override fun withTvos() = withTargets { it is KotlinNativeTarget && it.konanTarget.family == Family.TVOS }
 
+    override fun withVisionos() = withTargets { it is KotlinNativeTarget && it.konanTarget.family == Family.VISIONOS }
+
     override fun withMingw() = withTargets { it is KotlinNativeTarget && it.konanTarget.family == Family.MINGW }
 
     override fun withLinux() = withTargets { it is KotlinNativeTarget && it.konanTarget.family == Family.LINUX }
@@ -227,6 +229,14 @@ private class KotlinHierarchyBuilderImpl(
 
     override fun withTvosSimulatorArm64() = withTargets {
         it is KotlinNativeTarget && it.konanTarget == KonanTarget.TVOS_SIMULATOR_ARM64
+    }
+
+    override fun withVisionosArm64() = withTargets {
+        it is KotlinNativeTarget && it.konanTarget == KonanTarget.VISIONOS_ARM64
+    }
+
+    override fun withVisionosSimulatorArm64() = withTargets {
+        it is KotlinNativeTarget && it.konanTarget == KonanTarget.VISIONOS_SIMULATOR_ARM64
     }
 
     override fun withLinuxX64() = withTargets {

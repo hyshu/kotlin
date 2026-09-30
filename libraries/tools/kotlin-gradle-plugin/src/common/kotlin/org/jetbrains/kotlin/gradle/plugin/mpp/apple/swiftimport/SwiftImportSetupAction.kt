@@ -437,12 +437,13 @@ private fun Project.getAggregatedTransitiveDependenciesProvider(): Provider<Tran
 
             merged[selfIdentifier] = SwiftPMImportMetadata(
                 konanTargets = contribution.konanTargets.map { it.name }.toSet(),
-                contribution.iosDeploymentVersion,
-                contribution.macosDeploymentVersion,
-                contribution.watchosDeploymentVersion,
-                contribution.tvosDeploymentVersion,
-                false,
-                contribution.directDependencies,
+                iosDeploymentVersion = contribution.iosDeploymentVersion,
+                macosDeploymentVersion = contribution.macosDeploymentVersion,
+                watchosDeploymentVersion = contribution.watchosDeploymentVersion,
+                tvosDeploymentVersion = contribution.tvosDeploymentVersion,
+                isModulesDiscoveryEnabled = false,
+                dependencies = contribution.directDependencies,
+                visionosDeploymentVersion = contribution.visionosDeploymentVersion,
             )
 
             contribution.transitiveDependencies.metadataByDependencyIdentifier
@@ -577,6 +578,9 @@ private fun KonanTarget.swiftPMPlatform(): SwiftPMDependency.Platform = when (th
     KonanTarget.WATCHOS_SIMULATOR_ARM64,
     KonanTarget.WATCHOS_X64,
         -> Platform.watchOS
+    KonanTarget.VISIONOS_ARM64,
+    KonanTarget.VISIONOS_SIMULATOR_ARM64,
+        -> Platform.visionOS
 
     KonanTarget.ANDROID_ARM32,
     KonanTarget.ANDROID_ARM64,

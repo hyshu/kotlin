@@ -96,6 +96,9 @@ abstract class PodspecTask @Inject constructor(private val projectLayout: Projec
     @get:Nested
     internal abstract val watchos: Property<PodspecPlatformSettings>
 
+    @get:Nested
+    internal abstract val visionos: Property<PodspecPlatformSettings>
+
     @get:Input
     @get:Optional
     internal abstract val gradleWrapperFile: Property<File?>
@@ -153,7 +156,7 @@ abstract class PodspecTask @Inject constructor(private val projectLayout: Projec
                     line("spec.libraries                = 'c++'")
                 }
 
-                listOf(ios, osx, tvos, watchos)
+                listOf(ios, osx, tvos, watchos, visionos)
                     .map { it.get() }
                     .filter { it.deploymentTarget != null }
                     .forEach {

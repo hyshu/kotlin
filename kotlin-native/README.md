@@ -3,6 +3,8 @@
 _Kotlin/Native_ is an LLVM backend for the Kotlin compiler, runtime
 implementation, and native code generation facility using the LLVM toolchain.
 
+For the visionOS targets in this fork, see the [visionOS build guide](VISIONOS.md).
+
  _Kotlin/Native_ is primarily designed to allow compilation for platforms where
 virtual machines are not desirable or possible (such as iOS),
 or where a developer is willing to produce a reasonably sized self-contained program
